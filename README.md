@@ -1,7 +1,8 @@
 # ZeMu for iOS 6
 ZendoMusic client for iOS 6+
 <hr>
-Last version 1.9 
+Last version 1.9
+
 - Radio mode
 
 - The ability to call an Alert from the server side
