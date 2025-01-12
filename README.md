@@ -1,3 +1,4 @@
+![logo](https://github.com/ZendoMusicZeMu/zemu_ios_6/blob/main/logo.png?raw=true)
 # ZeMu for iOS 6
 ZendoMusic client for iOS 6+
 <hr>
