@@ -21,3 +21,4 @@ Last version 1.9
 ![old_versions](https://raw.githubusercontent.com/ZendoMusicZeMu/zemu_ios_6/refs/heads/main/preview.png)
 <hr>
 Install/Update: https://legacyprojects.ru
+Info: https://zendomusic.ru/ios6
