@@ -1,0 +1,143 @@
+body{
+	background-color: #101315;
+}
+
+.bg{
+	opacity: 0.6;
+	filter: brightness(40%);
+	min-height: 107%;
+    min-width: 640px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+	z-index: -170;
+}
+
+.fix-programm{
+	width: 70%;
+	border: 5px ridge white;
+	border-radius: 30px;
+}
+
+.news{
+	border: 5px ridge white;
+	border-radius: 30px; 
+}
+
+.icon{
+	width: 70px;
+}
+
+.music-card{
+	display:inline-block;
+	background-color: rgb(62, 62, 62);
+	width: 200px; /* ќграничение ширины */
+	height: 200px;
+	margin: auto;
+    text-align: center;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px; /* Добавляет расстояние в 16px для строк и столбцов */
+	margin: 25px;
+	border-radius: 30px; 
+	-webkit-box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.6);
+}
+
+.icon-img{
+	border-radius: 30px; 
+	-webkit-box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.6);
+	width: 200px;
+	height: 200px;
+    border-radius: 30px 30px 0px 0px; 
+}
+
+a{
+	text-decoration: none;
+}
+
+.back{
+	opacity: 0.6;
+	position: fixed;
+}
+
+h1{
+	color: white;
+	font-family: 'Arial', 'Verdana', sans-serif;
+}
+h2{
+	color: white;
+	font-family: 'Arial', 'Verdana', sans-serif;
+}
+h3{
+	color: white;
+	font-family: 'Arial', 'Verdana', sans-serif;
+}
+h4{
+	color: white;
+	font-family: 'Arial', 'Verdana', sans-serif;
+}
+
+
+
+
+
+
+#okno {
+        width: 300px;
+        height: 350px;
+        text-align: center;
+        padding: 15px;
+        border: 7px ridge white;
+        border-radius: 10px;
+        color: white;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+		background-image: url("https://www.funnyart.club/uploads/posts/2021-12/1640228060_65-www-funnyart-club-p-tkanevie-foni-68.jpg");
+      }
+      #okno:target {display: block;}
+      .close {
+        display: inline-block;
+        margin: 20px;
+        text-decoration: none;
+        font-size: 14pt;
+        cursor:pointer;
+      }
+	  
+	  
+#fixes {
+        width: 500px;
+        height: 350px;
+        text-align: center;
+        padding: 15px;
+        border: 7px ridge white;
+        border-radius: 10px;
+        color: white;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+		background-image: url("https://www.funnyart.club/uploads/posts/2021-12/1640228060_65-www-funnyart-club-p-tkanevie-foni-68.jpg");
+      }
+      #fixes:target {display: block;}
+      .fixesclose {
+        display: inline-block;
+        margin: 20px;
+        text-decoration: none;
+        font-size: 14pt;
+        cursor:pointer;
+      }
+	  
+	  

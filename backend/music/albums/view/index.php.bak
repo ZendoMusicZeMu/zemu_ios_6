@@ -1,0 +1,103 @@
+<?php
+$idalbum = isset($_GET['id']) ? $_GET['id'] : '';
+
+require_once '../../../../config/db.php';
+
+// Установка режима для обработки ошибок
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// SQL-запрос для выборки альбома по id
+$query = "SELECT * FROM albums WHERE id = '$idalbum'";
+
+try {
+    // Выполнение запроса
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $album = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($album) {
+        $namealbum = $album['name'];
+        $authoridalbum = $album['authorid'];
+        $iconalbum = $album['icon'];
+        $songs = $album['songs'];
+    } else {
+        echo "Альбом не найден.";
+        exit;
+    }
+} catch (PDOException $e) {
+    echo "Ошибка: " . $e->getMessage();
+    exit;
+}
+
+// SQL-запрос для выборки пользователя по id
+$query = "SELECT * FROM users WHERE id = '$authoridalbum'";
+
+try {
+    // Выполнение запроса
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user) {
+        $username = $user['username'];
+    } else {
+        echo "Пользователь не найден.";
+        exit;
+    }
+} catch (PDOException $e) {
+    echo "Ошибка: " . $e->getMessage();
+    exit;
+}
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="index,follow" name="robots" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="pics/homescreen.gif" rel="apple-touch-icon" />
+    <meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+    <link href="../../../css/style.css" rel="stylesheet" media="screen" type="text/css" />
+    <title><?php echo $namealbum; ?></title>
+</head>
+
+<body class="applist">
+<div id="content">
+
+    <?php
+    require_once '../../../../config/db.php';
+
+    // Установка режима для обработки ошибок
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $songIds = explode(',', $songs);
+    $songIds = array_map('intval', $songIds); // Преобразуем строки в числа
+
+    $placeholders = implode(',', array_fill(0, count($songIds), '?'));
+    $query = "SELECT * FROM songs WHERE id IN ($placeholders)";
+
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->execute($songIds);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $icon_music = '../../../../content/' . $row['url'] . '/' . $row['name'] . '.mp3.png';
+            if (!file_exists($icon_music)) {
+                $icon_music = '../../../../content/img/none-music.png';
+            }
+
+            // Замена пробелов на %20
+            $icon_music = str_replace(' ', '%20', $icon_music);
+
+            echo '<li><a class="noeffect" href="zemu://music?id=' . $row['id'] . '"><span class="image" style="background-image: url(' . $icon_music . ')"></span><span class="comment">' . $row['author'] . '</span><span class="name">' . $row['songname'] . '</span><span class="stars4"></span><span class="arrow"></span><span class="price"></span></a></li>';
+        }
+    } catch (PDOException $e) {
+        echo "Ошибка: " . $e->getMessage();
+    }
+    ?>
+
+</div>
+</body>
+</html>

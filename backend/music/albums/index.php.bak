@@ -1,0 +1,54 @@
+<?php
+require_once '../../../config/db.php';
+
+$section = isset($_GET['data']) ? $_GET['data'] : '';
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="index,follow" name="robots" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="pics/homescreen.gif" rel="apple-touch-icon" />
+    <meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+    <link href="../../css/style.css" rel="stylesheet" media="screen" type="text/css" />
+    <title>Альбомы</title>
+</head>
+
+<body class="applist">
+<div id="content">
+
+    <?php
+    // Установка режима для обработки ошибок
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // SQL-запрос для выборки всех строк с категорией 'games'
+    $query = "SELECT albums.*, users.username FROM albums JOIN users ON albums.authorid = users.id";
+
+    try {
+        // Выполнение запроса
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        // Получение результатов запроса
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $icon = $row['icon'];
+            if (!file_exists($icon)) {
+                $icon = '../../../content/img/none-music.png';
+            }
+
+            // Замена пробелов на %20
+            $icon = str_replace(' ', '%20', $icon);
+
+            echo '<li><a class="noeffect" href="./view/?id=' . $row['id'] . '"><span class="image" style="background-image: url(' . $icon . ')"></span><span class="comment">' . $row['username'] . '</span><span class="name">' . $row['name'] . '</span><span class="stars4"></span><span class="arrow"></span><span class="price"></span></a></li>';
+        }
+    } catch (PDOException $e) {
+        echo "Ошибка: " . $e->getMessage();
+    }
+    ?>
+
+</div>
+</body>
+</html>

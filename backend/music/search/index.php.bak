@@ -1,0 +1,85 @@
+<?php
+$search = $_POST['search'];
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Текущая страница
+$perPage = 6; // Количество карточек на странице
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="index,follow" name="robots" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="pics/homescreen.gif" rel="apple-touch-icon" />
+    <meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+    <link href="../../css/style.css" rel="stylesheet" media="screen" type="text/css" />
+    <title><?php echo $search; ?></title>
+</head>
+
+<center>
+</center>
+
+<body class="applist">
+<div id="content">
+
+    <?php
+    require_once '../../../config/db.php';
+
+    // Установка режима для обработки ошибок
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // SQL-запрос для выборки всех строк с именем с пагинацией и использованием LIKE
+    $offset = ($page - 1) * $perPage;
+    $query = "SELECT * FROM songs WHERE songname LIKE :search ORDER BY (likes - dislikes) DESC LIMIT :limit OFFSET :offset";
+
+    try {
+        // Выполнение запроса
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR); // Добавляем % для поиска по части текста
+        $stmt->bindParam(':limit', $perPage, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Получение результатов запроса
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $icon = '../../../content/' . $row['url'] . '/' . $row['name'] . '.mp3.png';
+            if (!file_exists($icon)) {
+                $icon = '../../../content/img/none-music.png';
+            }
+
+            // Замена пробелов на %20
+            $icon = str_replace(' ', '%20', $icon);
+
+            echo '<li><a class="noeffect" href="zemu://music?id=' . $row['id'] . '"><span class="image" style="background-image: url(' . htmlspecialchars($icon) . ')"></span><span class="comment">' . $row['author'] . '</span><span class="name">' . $row['songname'] . '</span><span class="stars4"></span><span class="arrow"></span><span class="price"></span></a></li>';
+        }
+    } catch (PDOException $e) {
+        echo "Ошибка: " . $e->getMessage();
+    }
+
+    echo '</div></body>';
+    // Пагинация
+    $totalQuery = "SELECT COUNT(*) FROM songs WHERE songname LIKE :search";
+    $totalStmt = $db->prepare($totalQuery);
+    $totalStmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR); // Добавляем % для поиска по части текста
+    $totalStmt->execute();
+    $total = $totalStmt->fetchColumn();
+    $totalPages = ceil($total / $perPage);
+
+    echo '<center><div class="pagination">';
+    if ($page > 1) {
+        echo '<a href="?search=' . urlencode($search) . '&page=' . ($page - 1) . '"><button><</button></a>';
+    } else {
+        echo '<a class="disabled"><button><</button></a>';
+    }
+    echo '<a href="?search=' . urlencode($search) . '&page=' . $page . '" class="active"><button>' . $page . '</button></a>';
+    if ($page < $totalPages) {
+        echo '<a href="?search=' . urlencode($search) . '&page=' . ($page + 1) . '"><button>></button></a>';
+    } else {
+        echo '<a class="disabled"><button>></button></a>';
+    }
+    echo '</div></center>';
+    ?>
+
+</html>
