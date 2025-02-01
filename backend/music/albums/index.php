@@ -35,7 +35,7 @@ $sec = isset($_GET['sec']) ? $_GET['sec'] : ''; // Определяем $sec
     require_once '../../API/checkicon.php';
 
     // Предположим, что у вас есть ссылка на JSON файл
-    $jsonUrl = $apiurl . 'albums.php?pass=' . $password;
+    $jsonUrl = $apiurl . 'albums.php?pass=' . $password . '&originalicon=true';
 
     // Отключаем проверку SSL-сертификата
     $context = stream_context_create([

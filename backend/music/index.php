@@ -4,10 +4,8 @@ require_once '../config/config.php';
 $version = isset($_GET['version']) ? $_GET['version'] : '';
 require_once '../libs/checkversion.php';
 
-
 $banner1url = '../img/banners/cut_the_rope_banner.jpg';
 $banner2url = '../img/banners/minecraft_banner.jpg';
-
 
 // URL, по которому доступен JSON-developers
 $url = $apiurl . 'developers.php?pass=' . $password; // Замените на ваш URL
@@ -25,7 +23,8 @@ $data = json_decode($jsonResponse, true);
 
 // Проверяем, удалось ли декодировать JSON
 if (json_last_error() !== JSON_ERROR_NONE) {
-    die("Ошибка: Неверный формат JSON.");
+    // Выводим ошибку и необработанный ответ
+    die("Ошибка: Неверный формат JSON. Ответ сервера: " . htmlspecialchars($jsonResponse));
 }
 
 // Извлекаем username из каждой строки
@@ -94,7 +93,7 @@ $usernamesString = implode(', ', $usernames);
     require_once '../config/config.php';
 
     // Предположим, что у вас есть ссылка на JSON файл
-    $jsonUrl = $apiurl . 'categories.php?pass=' . $password;
+    $jsonUrl = $apiurl . 'categories.php?pass=' . $password . '&originalicon=true';
 
     // Отключаем проверку SSL-сертификата
     $context = stream_context_create([

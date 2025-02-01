@@ -26,7 +26,7 @@ $perPage = 6; // Количество карточек на странице
     require_once '../../API/checkicon.php';
 
     // Предположим, что у вас есть ссылка на JSON файл
-    $jsonUrl = $apiurl . 'songs.php?search=' . urlencode($search) . '&pass=' . $password;
+    $jsonUrl = $apiurl . 'songs.php?search=' . urlencode($search) . '&pass=' . $password . '&originalicon=true';
 
     // Отключаем проверку SSL-сертификата
     $context = stream_context_create([
