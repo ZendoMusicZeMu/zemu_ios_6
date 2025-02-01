@@ -5,7 +5,7 @@ ini_set('display_errors', '1');
 
 
 // Предположим, что у вас есть ссылка на JSON файл
-$jsonUrl = $apiurl . 'random-song.php?pass=' . $password . '&originalurl=true';
+$jsonUrl = $apiurl . 'random-song.php?pass=' . $password . '&originalurl=true&originalicon=true';
 
 // Initialize cURL session
 $ch = curl_init();

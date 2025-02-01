@@ -6,7 +6,7 @@ ini_set('display_errors', '1');
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 
 // Предположим, что у вас есть ссылка на JSON файл
-$jsonUrl = $apiurl . 'song.php?id=' . $id . '&pass=' . $password . '&originalurl=true';
+$jsonUrl = $apiurl . 'song.php?id=' . $id . '&pass=' . $password . '&originalurl=true&originalicon=true';
 
 // Initialize cURL session
 $ch = curl_init();
