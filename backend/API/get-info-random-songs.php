@@ -49,12 +49,12 @@ if ($data === null) {
 foreach ($data as $item) {
 
     $icon = $item['icon'];
-
-    $result = substr(str_replace('%20', ' ', $item['icon']), 20);
-    $checkicon = '../..' . $result;
-    if (!file_exists($checkicon)) {
-        $icon = $websiteurl . 'content/img/none-music.png';
-    }
+    // Заменяем https на http в ссылке на иконку
+    $icon = str_replace('https://', 'http://', $icon);
+    
+    $url = $item['url'];
+    // Заменяем https на http в основном URL
+    $url = str_replace('https://', 'http://', $url);
 
     if ($item['category'] === 'games') {
         $category = 'Игры';
@@ -75,16 +75,15 @@ foreach ($data as $item) {
     } else {
         $category = 'Неизвестно';
     }
-	
-	if ($item['verified'] === 1) {
+    
+    if ($item['verified'] === 1) {
         $verified = 'Песня проверена';
     } else {
-		$verified = 'Песня не была проверена';
-	}
-	
-	$external_url = $item['url'];
+        $verified = 'Песня не была проверена';
+    }
+    
+    $external_url = $url;
 
-
-    echo $item['url'] . ',' . $icon . ',' . $item['songname'] . ',' . $item['author'] . ',ID: ' . $item['id'];
+    echo $url . ',' . $icon . ',' . $item['songname'] . ',' . $item['author'] . ',ID: ' . $item['id'];
 }
 ?>
